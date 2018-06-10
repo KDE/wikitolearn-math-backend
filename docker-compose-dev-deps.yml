@@ -1,0 +1,10 @@
+version: "3.4"
+services:
+  math-backend-mongodb:
+    image: "mongo:3.4"
+    volumes:
+    - math-backend-mongodb-configdb:/data/configdb
+    - math-backend-mongodb-db:/data/db
+volumes:
+  math-backend-mongodb-configdb:
+  math-backend-mongodb-db:

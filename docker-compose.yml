@@ -1,0 +1,29 @@
+version: "3.4"
+services:
+  math-backend:
+    build:
+      context: ./nginx-proxy/src/
+      args:
+        SERVICE_PORT: ${SERVICE_PORT}
+    image: "${DOCKER_REGISTRY}wikitolearn/math-backend:${DOCKER_IMAGE_MATH_BACKEND_TAG}"
+    ports:
+      - "${SERVICE_PORT}:${SERVICE_PORT}"
+    environment:
+      - NGINX_PORT=${SERVICE_PORT}
+  formulas-backend:
+    build:
+      context: ./formulas-backend/src/
+    image: "${DOCKER_REGISTRY}wikitolearn/formulas-backend:${DOCKER_IMAGE_MATH_BACKEND_TAG}"
+    environment:
+      - MONGO_HOST=${MONGO_HOST}
+  mathoid-backend:
+    build:
+      context: ./mathoid-backend/src/
+    image: "${DOCKER_REGISTRY}wikitolearn/mathoid-backend:${DOCKER_IMAGE_MATH_BACKEND_TAG}"
+  texlive-backend:
+    build:
+      context: ./texlive-backend/src/
+    image: "${DOCKER_REGISTRY}wikitolearn/texlive-backend:${DOCKER_IMAGE_MATH_BACKEND_TAG}"
+    environment:
+      - FLASK_APP=${TEXLIVE_FLASK_APP}
+      - FLASK_DEBUG=${TEXLIVE_FLASK_DEBUG}
