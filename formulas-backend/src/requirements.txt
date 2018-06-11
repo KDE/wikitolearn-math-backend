@@ -1,1 +1,2 @@
 eve==0.8.*
+eve_swagger
