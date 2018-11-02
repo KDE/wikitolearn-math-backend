@@ -15,7 +15,7 @@ eve_settings['MONGO_DBNAME'] = 'formulas'
 eve_settings['DEBUG'] = True
 
 eve_settings['SWAGGER_INFO'] = {
-    'title': 'TexLive backend service',
+    'title': 'Formulas backend service',
     'version': '1.0',
     'description': '',
     'termsOfService': '',
@@ -34,7 +34,7 @@ eve_settings['SOFT_DELETE'] = True
 eve_settings['API_VERSION'] = 'v1'
 eve_settings['VERSIONING'] = False
 eve_settings['RENDERERS'] = ['eve.render.JSONRenderer']
-# It raise a warning but it needs to generate a valid Swagger doc
+# It raises a warning but it needs to generate a valid Swagger doc
 eve_settings['XML'] = False
 eve_settings['RESOURCE_METHODS'] = ['GET', 'POST']
 eve_settings['ITEM_METHODS'] = ['GET', 'PATCH', 'DELETE']
