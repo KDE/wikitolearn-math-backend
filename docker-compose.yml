@@ -20,10 +20,3 @@ services:
     build:
       context: ./mathoid-backend/src/
     image: "${DOCKER_REGISTRY}wikitolearn/mathoid-backend:${DOCKER_IMAGE_MATH_BACKEND_TAG}"
-  texlive-backend:
-    build:
-      context: ./texlive-backend/src/
-    image: "${DOCKER_REGISTRY}wikitolearn/texlive-backend:${DOCKER_IMAGE_MATH_BACKEND_TAG}"
-    environment:
-      - FLASK_APP=${TEXLIVE_FLASK_APP}
-      - FLASK_DEBUG=${TEXLIVE_FLASK_DEBUG}

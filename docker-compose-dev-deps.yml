@@ -5,7 +5,6 @@ services:
       - type: bind
         source: ./formulas-backend/src
         target: /opt/
-    restart: on-failure
   math-backend-mongodb:
     image: "mongo:3.4"
     volumes:
