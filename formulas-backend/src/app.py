@@ -3,7 +3,7 @@
 import os,sys
 from eve import Eve
 from flask import jsonify
-import json
+import json, hashlib
 from eve_swagger import swagger, add_documentation
 
 mongo_host = os.environ.get('MONGO_HOST')
@@ -33,6 +33,7 @@ eve_settings['SWAGGER_INFO'] = {
 eve_settings['SOFT_DELETE'] = True
 eve_settings['API_VERSION'] = 'v1'
 eve_settings['VERSIONING'] = False
+eve_settings['BANDWIDTH_SAVER'] = False
 eve_settings['RENDERERS'] = ['eve.render.JSONRenderer']
 # It raises a warning but it needs to generate a valid Swagger doc
 eve_settings['XML'] = False
@@ -44,7 +45,11 @@ eve_settings['RETURN_MEDIA_AS_URL'] = True
 eve_settings['MEDIA_ENDPOINT'] = 'rendered-formulas'
 eve_settings['DOMAIN'] = {}
 eve_settings['DOMAIN']['formulas'] = {
+    'item_url': 'regex("[A-Fa-f0-9]{64}")',
     'schema': {
+        '_id': {
+          'type': 'string'
+        },
         'formula': {
             'type': 'string',
             'required': True
@@ -56,9 +61,15 @@ eve_settings['DOMAIN']['formulas'] = {
     },
 }
 
+def on_insert_formulas_callback(items):
+  for item in items:
+    item['_id'] = hashlib.sha256(item['formula'].encode('utf-8')).hexdigest()
+
 
 app = Eve(settings=eve_settings)
 app.register_blueprint(swagger)
+
+app.on_insert_formulas += on_insert_formulas_callback
 
 # Update Swagger doc
 add_documentation({
