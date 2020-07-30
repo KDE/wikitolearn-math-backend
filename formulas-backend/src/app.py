@@ -4,7 +4,7 @@ import os,sys
 from eve import Eve
 from flask import jsonify
 import json, hashlib
-from eve_swagger import swagger, add_documentation
+from eve_swagger import get_swagger_blueprint, add_documentation
 
 mongo_host = os.environ.get('MONGO_HOST')
 service_port = 8087
@@ -67,12 +67,13 @@ def on_insert_formulas_callback(items):
 
 
 app = Eve(settings=eve_settings)
+swagger = get_swagger_blueprint()
 app.register_blueprint(swagger)
 
 app.on_insert_formulas += on_insert_formulas_callback
 
 # Update Swagger doc
-add_documentation({
+add_documentation(swagger, {
   'paths': {
     '/rendered-formulas/{renderedFormulaId}': {
       'get': {
